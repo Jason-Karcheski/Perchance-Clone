@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap');
+
+* {
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, li, th, td {
+    font-family: "Inter", sans-serif;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80vw;
+    padding: 2rem;
+    margin: 0 auto;
+}
+
+section > h1 {
+    width: 100%;
+    text-align: start;
+    padding: 0 0 1rem 0;
+}
+
+button {
+    background-color: black;
+    color: white;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-color: transparent;
+    border-radius: 1rem;
+    transition: 300ms;
+}
+
+button:active {
+    opacity: 0.5;
+}
+
+.tables_configuration {
+    width: 100%;
+}
+
+.tables_configuration td {
+    width: 50%;
+    padding: 0.5rem;
+}
+
+.tables_configuration tr:nth-child(even) {
+    background-color: #EFEFEF;
+}
+
+.tables_configuration th {
+    text-align: left;
+    padding: 0.25rem;
+    border: solid 1px #999;
+}
