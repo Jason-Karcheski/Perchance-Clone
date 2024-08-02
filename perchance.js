@@ -1,57 +1,77 @@
 
-let items = [
-    "a few coins",
-    "an old ring",
-    "a handkerchief",
-    "a shard of bone",
-    "some lint",
-    "a tin of tea leaves"
-]
+var itemMap = new Map([
+    ["a few coins", 1],
+    ["an old ring", 1],
+    ["a handkerchief", 1],
+    ["a shard of bone", 1],
+    ["some lint", 1],
+    ["a tin of tea leaves", 1]
+]);
 
-let packs = [
-    "purse",
-    "backpack",
-    "bag",
-    "pack",
-    "knapsack",
-    "rucksack"
-];
+var packMap = new Map([
+    ["purse", 1],
+    ["backpack", 1],
+    ["bag", 1],
+    ["pack", 1],
+    ["knapsack", 1],
+    ["rucksack", 1]
+]);
 
-function addTableRows(tableId, items) {
+function addTableRowsFromMap(tableId, map) {
     let table = document.getElementById(tableId);
+    var rowIndex = 1;
 
-    for (let i of items.entries()) {
-        let rowIndex = i[0] + 1;
-        let rowData = i[1];
-
+    map.keys().forEach(element => {
+        // Row Indexing
         let row = table.insertRow(rowIndex);
+        rowIndex++;
+
+        // Name Cell
         let nameCell = row.insertCell(0);
-        let oddsCell = row.insertCell(1);
+        nameCell.innerHTML = element;
 
-        nameCell.innerHTML = rowData;
-
+        // Weight Cell
+        let weightCell = row.insertCell(1);
+        let weight = map.get(element);
         let inputField = document.createElement("INPUT");
-        inputField.setAttribute("type", "text");
-        inputField.value = "1";
-        oddsCell.appendChild(inputField);
-    }
+        inputField.setAttribute("type", "number");
+        inputField.setAttribute("value", weight);
+        inputField.addEventListener("input", (event) => {
+            let newWeight = event.target.value;
+            map.set(element, newWeight);
+        })
+        weightCell.appendChild(inputField);
+    });
+}
+
+function buildArrayFromWeights(map) {
+    var list = new Array();
+
+    map.keys().forEach(key => {
+        let weight = map.get(key);
+        for (let i = 0; i < weight; i++) {
+            list.push(key);
+        }
+    });
+
+    return list
 }
 
 function getRandomElement(array) {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    const randomElement = array[randomIndex];
-    return randomElement;
+    let randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
 }
 
 function updateMessage() {
-    let message = `Your ${getRandomElement(packs)} contains ${getRandomElement(items)}, ${getRandomElement(items)} and ${getRandomElement(items)}.`;
-    console.log(message);
+    let weightedPackArray = buildArrayFromWeights(packMap);
+    let weightedItemArray = buildArrayFromWeights(itemMap);
+
+    let message = `Your ${getRandomElement(weightedPackArray)} contains ${getRandomElement(weightedItemArray)}, ${getRandomElement(weightedItemArray)} and ${getRandomElement(weightedItemArray)}.`;
     document.getElementById("message").textContent = message;
 }
 
 window.onload = () => {
     updateMessage();
-
-    addTableRows("table_packs", packs);
-    addTableRows("table_items", items);
+    addTableRowsFromMap("table_packs", packMap);
+    addTableRowsFromMap("table_items", itemMap);
 }
